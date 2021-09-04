@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">ItuneExample</string>
+    <string name="artist_name">Artist name</string>
+    <string name="artist_id">Artist Id</string>
+    <string name="collection_name">Collection name</string>
+    <string name="track_id">Track id</string>
 </resources>

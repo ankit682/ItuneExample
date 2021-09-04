@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    // Text Sizes
+    <dimen name="large_text">25sp</dimen>
+    <dimen name="small_text">15sp</dimen>
+
+    // Margin
+    <dimen name="large_margin">10sp</dimen>
+    <dimen name="small_margin">5sp</dimen>
+
+    // Height
+    <dimen name="height">1sp</dimen>
+</resources>
