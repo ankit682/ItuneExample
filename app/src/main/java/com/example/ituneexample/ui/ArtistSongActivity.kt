@@ -1,8 +1,11 @@
 package com.example.ituneexample.ui
 
 import android.os.Bundle
+import android.os.Handler
 import android.os.StrictMode
 import android.util.Log
+import android.view.View
+import android.widget.ProgressBar
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -18,6 +21,7 @@ class ArtistSongActivity : AppCompatActivity() {
 
     val EXTRA_MESSAGE = "message"
     var amgArtistId: Int = 0
+    lateinit var progressBar: ProgressBar
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -29,37 +33,39 @@ class ArtistSongActivity : AppCompatActivity() {
         val policy = StrictMode.ThreadPolicy.Builder().permitAll().build()
         StrictMode.setThreadPolicy(policy)
 
-        // get url with JSON data
-        var urlString: String = Urls.BASE_URL + Urls.AMG_URL + message
-        var url: URL? = try {
-            URL(urlString)
-        } catch (e: MalformedURLException) {
-            Log.d("No URL Exception", e.toString())
-            null
-        }
+        progressBar = findViewById(R.id.progress_bar)
+        Handler(mainLooper).postDelayed({
+            // get url with JSON data
+            var urlString: String = Urls.BASE_URL + Urls.AMG_URL + message
+            var url: URL? = try {
+                URL(urlString)
+            } catch (e: MalformedURLException) {
+                Log.d("No URL Exception", e.toString())
+                null
+            }
 
-        amgArtistId = amgArtistParse(url?.readText())
-        Log.e("amgArtistId", "ID $amgArtistId")
+            amgArtistId = amgArtistParse(url?.readText())
+            Log.e("amgArtistId", "ID $amgArtistId")
 
-        urlString = Urls.BASE_URL + Urls.SONG_URL + amgArtistId + Urls.END_URL
-        url = try {
-            URL(urlString)
-        } catch (e: MalformedURLException) {
-            Log.d("No URL Exception", e.toString())
-            null
-        }
+            urlString = Urls.BASE_URL + Urls.SONG_URL + amgArtistId + Urls.END_URL
+            url = try {
+                URL(urlString)
+            } catch (e: MalformedURLException) {
+                Log.d("No URL Exception", e.toString())
+                null
+            }
 
-        // read JsonData into a list of items then sort items
-        var songList: MutableList<Song> = parseJson(url?.readText())
+            // read JsonData into a list of items then sort items
+            var songList: MutableList<Song> = parseJson(url?.readText())
 
-        Log.e("Size", "${songList.size}")
+            Log.e("Size", "${songList.size}")
 
-        songList = songList.toSet().toMutableList()
-        var songAdapter = SongAdapter(songList)
-        val artistRecyclerView: RecyclerView = findViewById(R.id.song_recycler_view)
-        artistRecyclerView.adapter = songAdapter
-        artistRecyclerView.layoutManager = LinearLayoutManager(applicationContext)
-
+            songList = songList.toSet().toMutableList()
+            var songAdapter = SongAdapter(songList)
+            val artistRecyclerView: RecyclerView = findViewById(R.id.song_recycler_view)
+            artistRecyclerView.adapter = songAdapter
+            artistRecyclerView.layoutManager = LinearLayoutManager(applicationContext)
+        }, 5000)
     }
 
     private fun amgArtistParse(data: String?): Int {
@@ -82,6 +88,13 @@ class ArtistSongActivity : AppCompatActivity() {
 
     private fun parseJson(data: String?): MutableList<Song> {
         val songList = mutableListOf<Song>()
+
+        val visibility = if (progressBar.visibility == View.GONE) {
+            View.VISIBLE
+        } else
+            View.GONE
+
+        progressBar.visibility = visibility
         try {
 
             val jsonObject = JSONObject(data)
