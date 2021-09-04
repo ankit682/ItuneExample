@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_margin="@dimen/small_margin"
-    tools:context=".ArtistSongActivity">
+    tools:context=".ui.ArtistSongActivity">
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/song_recycler_view"

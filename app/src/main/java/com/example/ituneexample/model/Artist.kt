@@ -1,4 +1,4 @@
-package com.example.ituneexample
+package com.example.ituneexample.model
 
 data class Artist(
     val artistId: Int,

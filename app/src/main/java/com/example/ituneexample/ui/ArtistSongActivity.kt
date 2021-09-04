@@ -1,4 +1,4 @@
-package com.example.ituneexample
+package com.example.ituneexample.ui
 
 import android.os.Bundle
 import android.os.StrictMode
@@ -6,6 +6,9 @@ import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.ituneexample.R
+import com.example.ituneexample.Urls
+import com.example.ituneexample.model.Song
 import org.json.JSONException
 import org.json.JSONObject
 import java.net.MalformedURLException
@@ -27,7 +30,7 @@ class ArtistSongActivity : AppCompatActivity() {
         StrictMode.setThreadPolicy(policy)
 
         // get url with JSON data
-        var urlString: String = "https://itunes.apple.com/lookup?id=${message}"
+        var urlString: String = Urls.BASE_URL + Urls.AMG_URL + message
         var url: URL? = try {
             URL(urlString)
         } catch (e: MalformedURLException) {
@@ -38,7 +41,7 @@ class ArtistSongActivity : AppCompatActivity() {
         amgArtistId = amgArtistParse(url?.readText())
         Log.e("amgArtistId", "ID $amgArtistId")
 
-        urlString = "https://itunes.apple.com/lookup?amgArtistId=${amgArtistId}&entity=song"
+        urlString = Urls.BASE_URL + Urls.SONG_URL + amgArtistId + Urls.END_URL
         url = try {
             URL(urlString)
         } catch (e: MalformedURLException) {

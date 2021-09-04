@@ -1,4 +1,4 @@
-package com.example.ituneexample
+package com.example.ituneexample.ui
 
 import android.content.Intent
 import android.os.Bundle
@@ -7,6 +7,9 @@ import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.ituneexample.R
+import com.example.ituneexample.Urls
+import com.example.ituneexample.model.Artist
 import org.json.JSONException
 import org.json.JSONObject
 import java.net.MalformedURLException
@@ -26,7 +29,7 @@ class ArtistActivity : AppCompatActivity() {
 
         // get url with JSON data
         val url: URL? = try {
-            URL("https://itunes.apple.com/search?term=musicArtist")
+            URL(Urls.BASE_URL + Urls.ARTIST_URL)
         } catch (e: MalformedURLException) {
             Log.d("No URL Exception", e.toString())
             null
